@@ -1,6 +1,3 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }, {
-    "source": "/uploads/:path*",
-    "destination": "http://tkk04oksokwwgwswgg84cg4w.5.253.143.162.sslip.io/uploads/:path*"
-  }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
