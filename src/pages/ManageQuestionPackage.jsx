@@ -21,7 +21,7 @@ const ManageQuestionPackage = () => {
   const [error, setError] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [loading, setLoading] = useState(true); // Loading state for spinner
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep] = useState(0);
 
   const closeAddPopup = () => setIsAddPopupOpen(false);
   const closeManageInformationPopup = () =>

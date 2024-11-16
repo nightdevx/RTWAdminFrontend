@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Token gerektiren işlemler için Axios instance'ı oluşturun
 const apiWithAuth = axios.create({
-  baseURL: "http://localhost:3000/api", // API'nizin base URL'sini buraya ekleyin
+  baseURL: "https://rtwbackend.onrender.com/api", // API'nizin base URL'sini buraya ekleyin
 });
 
 // Request interceptor ekleyin
@@ -25,7 +25,7 @@ apiWithAuth.interceptors.request.use(
 
 // Token gerektirmeyen işlemler için Axios instance'ı oluşturun
 const apiWithoutAuth = axios.create({
-  baseURL: "http://localhost:3000/api", // API'nizin base URL'sini buraya ekleyin
+  baseURL: "https://rtwbackend.onrender.com/api", // API'nizin base URL'sini buraya ekleyin
 });
 
 export { apiWithAuth, apiWithoutAuth };

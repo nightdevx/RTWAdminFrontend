@@ -22,7 +22,7 @@ const MailsPage = () => {
   const [subject, setSubject] = useState("");
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
-  const [buttonText, setButtonText] = useState("Send Mails");
+  const [buttonText, setButtonText] = useState("Send Information Mails");
   const [selectedMails, setSelectedMails] = useState({});
   const [isAddMailPopupOpen, setIsAddMailPopupOpen] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
@@ -59,12 +59,12 @@ const MailsPage = () => {
     });
   };
 
-  const handleMailSend = async () => {
+  const sendInformationMails = async () => {
     setSending(true);
     setButtonText("Sending...");
     if (!validateForm()) {
       setSending(false);
-      setButtonText("Send Mails");
+      setButtonText("Send Information Mails");
       return;
     }
     await handleTemplateSave();
@@ -81,7 +81,34 @@ const MailsPage = () => {
     );
     setButtonText("Sended");
     setTimeout(() => {
-      setButtonText("Send Mails");
+      setButtonText("Send Information Mails");
+    }, 2000);
+    setSending(false);
+  };
+
+  const sendApprovalStatusMails = async () => {
+    setSending(true);
+    setButtonText("Sending...");
+    if (!validateForm()) {
+      setSending(false);
+      setButtonText("Send Information Mails");
+      return;
+    }
+    await handleTemplateSave();
+    const filteredMails = mailPackage.userMails
+      .filter((userMail) => userMail.mailStatus === "not-sended")
+      .map((userMail) => userMail.mail);
+    await sendMails(filteredMails, subject, text);
+    await updateMailStatuses(
+      id,
+      filteredMails.map((mail) => ({
+        mail: mail,
+        mailStatus: "sended",
+      }))
+    );
+    setButtonText("Sended");
+    setTimeout(() => {
+      setButtonText("Send Information Mails");
     }, 2000);
     setSending(false);
   };
@@ -141,11 +168,18 @@ const MailsPage = () => {
             Add Mail
           </Button>
           <Button
-            click={handleMailSend}
+            click={sendInformationMails}
             className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
             disabled={sending}
           >
             {buttonText}
+          </Button>
+          <Button
+            click={sendApprovalStatusMails}
+            className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
+            disabled={sending}
+          >
+            Send Approval Status Mails
           </Button>
         </div>
       </div>
