@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import axios from "axios";
 import { apiWithAuth, apiWithoutAuth } from "../config/axios.config";
 
 const fetchVideos = async (set) => {

@@ -138,9 +138,6 @@ const useApplicationsStore = create((set) => ({
     deleteNoteFromApplication(set, id, noteIndex),
   updateNoteInApplication: (id, noteIndex, updatedNote) =>
     updateNoteInApplication(set, id, noteIndex, updatedNote),
-  fetchVideos: () => fetchVideos(set),
-  addVideo: (newVideo) => addVideo(set, newVideo),
-  deleteVideo: (id) => deleteVideo(set, id),
 }));
 
 export default useApplicationsStore;

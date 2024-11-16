@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import VideoCollection from "../components/Video_Collection";
 import useApplicationsStore from "../store/applications.store";
 import { FaSearch, FaFilter } from "react-icons/fa"; // Search and Filter icons
@@ -9,10 +9,8 @@ import Spinner from "../components/Spinner";
 
 const InterviewVideoCollection = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { loading, applications, fetchApplications } = useApplicationsStore();
   const { videos, fetchVideosByIds } = useVideoStore();
-  const [selectedButton, setSelectedButton] = useState("/admin/interview/list");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterBy, setFilterBy] = useState("all");
   const { interview, fetchInterviewById } = useInterviewStore();
@@ -28,11 +26,6 @@ const InterviewVideoCollection = () => {
       fetchVideosByIds(ids);
     }
   }, [applications, fetchVideosByIds]);
-
-  const handleNavigateButtonClick = (path) => {
-    setSelectedButton(path);
-    navigate(path);
-  };
 
   const filteredApplications = applications.filter((application) => {
     const matchesSearch =

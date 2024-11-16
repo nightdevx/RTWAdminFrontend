@@ -5,18 +5,15 @@ import useMailPackageStore from "../store/mail-package.store";
 import AdminName from "../components/Admin_Name";
 import SettingPopup from "../components/popups/Setting_Popup";
 
-
 const ManageMailsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { fetchAllMailPackages, mailPackages } = useMailPackageStore();
-  const user = JSON.parse(localStorage.getItem("user"));
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   useEffect(() => {
     fetchAllMailPackages();
   }, [fetchAllMailPackages]);
 
-const closeSettingPopup = () => setIsSettingPopupOpen(false);
-
+  const closeSettingPopup = () => setIsSettingPopupOpen(false);
 
   return (
     <div className="w-full h-full flex flex-col">

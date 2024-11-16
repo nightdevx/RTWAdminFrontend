@@ -10,7 +10,10 @@ import AdminName from "../components/Admin_Name";
 
 const InterviewList = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [setInterviewInformationPopupOpen, setIsInterviewInfoInformationPopupOpen] = useState(false);
+  const [
+    setInterviewInformationPopupOpen,
+    setIsInterviewInfoInformationPopupOpen,
+  ] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [user, setUser] = useState(null);
@@ -121,7 +124,6 @@ const InterviewList = () => {
 
       {/* Popup Component */}
       {isPopupOpen && <CreateInterview onClose={closePopup} />}
-
 
       {/* Information Popup Component */}
       {setInterviewInformationPopupOpen && (

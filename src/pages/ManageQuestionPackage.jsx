@@ -3,9 +3,9 @@ import Button from "../components/Buttons/Button";
 import QuestionPackage from "../components/Question_Package";
 import useQuestionPackageStore from "../store/questionpackages.store";
 import { AddQuestionPackagePopup } from "../components/popups/AddQuestionPackagePopup";
-import { FaSearch, FaInfoCircle, FaFilter } from "react-icons/fa";
+import { FaSearch, FaFilter } from "react-icons/fa";
 import ManageInformationPopup from "../components/popups/ManageInformationPopup";
-import Spinner from "../components/Spinner"; 
+import Spinner from "../components/Spinner";
 import AdminName from "../components/Admin_Name";
 
 const ManageQuestionPackage = () => {
@@ -20,7 +20,6 @@ const ManageQuestionPackage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
   const [sortBy, setSortBy] = useState("default");
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state for spinner
 
   const closeAddPopup = () => setIsAddPopupOpen(false);
@@ -30,8 +29,6 @@ const ManageQuestionPackage = () => {
   useEffect(() => {
     setLoading(true);
     getQuestionPackages().finally(() => setLoading(false)); // Set loading to false after fetching data
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
   }, [getQuestionPackages]);
 
   const handleCheckboxChange = (packageId) => {

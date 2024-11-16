@@ -7,7 +7,6 @@ import { AddQuestionPopup } from "../components/popups/AddQuestionPopup";
 import useQuestionPackageStore from "../store/questionpackages.store";
 import { useParams } from "react-router-dom";
 import Question from "../components/Question";
-import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
 const Package = () => {
@@ -17,14 +16,11 @@ const Package = () => {
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [originalTitle, setOriginalTitle] = useState("");
-  const [selectedButton, setSelectedButton] = useState("/admin/packages");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-  
 
   const {
     selectedPackage,
@@ -35,11 +31,6 @@ const Package = () => {
     error: packageError,
   } = useQuestionPackageStore();
 
-  const handleNavigateButtonClick = (path) => {
-    setSelectedButton(path);
-    navigate(path);
-  };
-
   // Fetch package data on component mount
   useEffect(() => {
     const fetchPackageData = async () => {
@@ -47,7 +38,7 @@ const Package = () => {
     };
 
     fetchPackageData();
-  }, [id]);
+  }, [id, getQuestionPackageById]);
 
   // Update title and questions when package is selected
   useEffect(() => {

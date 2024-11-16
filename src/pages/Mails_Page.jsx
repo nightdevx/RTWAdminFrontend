@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "../components/Buttons/Button";
 import { FaSearch } from "react-icons/fa";
-import useMenuStore from "../store/menu.store";
 import UsersMails from "../components/UsersMails";
 import AddMailPopup from "../components/popups/AddMailPopup";
 import useMailPackageStore from "../store/mail-package.store";
@@ -11,10 +10,7 @@ import AdminName from "../components/Admin_Name";
 
 const MailsPage = () => {
   const { id } = useParams();
-  const [searchTerm, setSearchTerm] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
-  const isMenuCollapsed = useMenuStore((state) => state.isMenuCollapsed);
   const {
     mailPackage,
     fetchMailPackageById,
@@ -92,7 +88,7 @@ const MailsPage = () => {
 
   useEffect(() => {
     fetchMailPackageById(id);
-  }, [fetchMailPackageById]);
+  }, [fetchMailPackageById, id]);
 
   useEffect(() => {
     if (mailPackage) {
@@ -147,6 +143,7 @@ const MailsPage = () => {
           <Button
             click={handleMailSend}
             className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
+            disabled={sending}
           >
             {buttonText}
           </Button>

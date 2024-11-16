@@ -189,14 +189,17 @@ const InterviewCandidateVideoCollection = () => {
                     <div className="flex justify-between mt-4">
                       <div className="w-full overflow-y-auto h-full">
                         <ul className="list-none list-inside">
-                          {interview?.packages.map((pkg, index) => (
+                          {interview?.packages.map((pkg) => (
                             <li key={pkg._id} className="mb-2">
                               <h2 className="font-semibold">
                                 Paket Adı: {pkg.title}
                               </h2>
                               {pkg.questions.map((question, index) => (
-                                <div className="mt-2 bg-açıkrtw p-2 rounded-xl">
-                                  <p key={question._id}>
+                                <div
+                                  className="mt-2 bg-açıkrtw p-2 rounded-xl"
+                                  key={question._id}
+                                >
+                                  <p>
                                     {index + 1}- {question.questionText}
                                   </p>
                                 </div>
