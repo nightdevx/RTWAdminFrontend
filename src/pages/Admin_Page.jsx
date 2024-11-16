@@ -98,7 +98,7 @@ const AdminPage = () => {
             } ${isMenuCollapsed ? "mt-50" : ""}`}
             onClick={() => handleButtonClick("/admin/packages")}
             style={{
-              zIndex: currentStep === 0 ? 100 : 1,
+              zIndex: currentStep === 0 ? 100 : 0,
               position: "relative",
             }}
           >
@@ -122,7 +122,7 @@ const AdminPage = () => {
             }`}
             onClick={() => handleButtonClick("/admin/interview/list")}
             style={{
-              zIndex: currentStep === 1 ? 100 : 1,
+              zIndex: currentStep === 1 ? 100 : 0,
               position: "relative",
             }}
           >
@@ -145,7 +145,7 @@ const AdminPage = () => {
             } ${isMenuCollapsed ? "mt-50" : ""}`}
             onClick={() => handleButtonClick("/admin/manage-mails")}
             style={{
-              zIndex: currentStep === 3 ? 100 : 1,
+              zIndex: currentStep === 3 ? 100 : 0,
               position: "relative",
             }}
           >

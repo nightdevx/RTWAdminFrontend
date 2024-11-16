@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { CreateInterview } from "../components/popups/CreateInterviewPopup";
 import ReactTooltip from "react-tooltip";
 
-
 const InterviewBlock = ({ data }) => {
   const navigate = useNavigate();
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const { deleteInterview, updateInterview } = useInterviewStore();
+  const [currentStep, setCurrentStep] = useState(0);
 
   // Create a ref for the info popup
   const infoPopupRef = useRef(null);
@@ -80,22 +80,41 @@ const InterviewBlock = ({ data }) => {
     >
       {/* Üst ikonlar */}
       <div className="flex justify-between items-center mb-4">
-        <div>
-          <button
-            data-tip="Interview Info"
-            className="text-black mx-2"
-            onClick={toggleInfoPopup}
+        <div className="flex">
+          <div
+            id="info-icon-btn"
+            style={{
+              zIndex: currentStep === 8 ? 100 : 0,
+              position: "relative",
+            }}
           >
-            <i className="fas fa-info-circle hover:text-gray-800"></i>
-          </button>
-          <ReactTooltip place="top" type="dark" effect="solid" />
-          <button
-            className="text-gray-500 mx-2"
-            onClick={() => setIsEditPopupOpen(true)}
+            <button
+              data-tip="Interview Info"
+              className="text-black mx-2"
+              onClick={toggleInfoPopup}
+            >
+              <i className="fas fa-info-circle hover:text-gray-800"></i>
+            </button>
+          </div>
+
+          <div
+            id="edit-icon-btn"
+            style={{
+              zIndex: currentStep === 2 ? 100 : 0,
+              position: "relative",
+            }}
           >
-            <i className="fa-solid fa-pen-to-square text-black"></i>
-          </button>
+            <ReactTooltip place="top" type="dark" effect="solid" />
+            <button
+              className="text-gray-500 mx-2"
+              onClick={() => setIsEditPopupOpen(true)}
+            >
+              <i className="fa-solid fa-pen-to-square text-black"></i>
+            </button>
+
+          </div>
         </div>
+
         <div className="flex space-x-2">
           <button
             className={`text-blue-500 ${isLinkCopied ? "text-green-500" : ""}`}

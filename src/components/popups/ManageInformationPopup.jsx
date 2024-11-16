@@ -23,19 +23,20 @@ const guideSteps = [
   {
     title: "Delete Packages",
     content: "Select packages and click here to delete them.",
-    position: { top: "24%", left: "82.3%", arrowPosition: "top" },
+    position: { top: "24%", left: "81.8%", arrowPosition: "top" },
     targetId: "delete-packages-btn",
   },
   {
     title: "Search Packages",
     content: "Use the search bar to find specific packages.",
-    position: { top: "24%", left: "57.5%", arrowPosition: "top" },
+    position: { top: "24%", left: "56.5%", arrowPosition: "top" },
+    targetId: "search-packages-btn",
   },
   {
     title: "Packages Status",
     content:
       "The packages used in the ads are in In Use status and you cannot change the content of the question package. For this, you need to make the ad Inactive.",
-    position: { top: "37%", left: "27%", arrowPosition: "top" },
+    position: { top: "40%", left: "27%", arrowPosition: "top" },
   },
   {
     title: "Edit Packages",
@@ -74,6 +75,17 @@ const ManageInformationPopup = ({ onClose }) => {
     }
   }, [currentStep, targetId]);
 
+  const handleClose = () => {
+    // Reset all buttons' z-index to default when the popup is closed
+    guideSteps.forEach((step) => {
+      const element = document.getElementById(step.targetId);
+      if (element) {
+        element.style.zIndex = "1";
+      }
+    });
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 z-50">
       {/* Background blur */}
@@ -110,7 +122,7 @@ const ManageInformationPopup = ({ onClose }) => {
           </span>
           <div className="flex">
             <Button
-              click={onClose}
+              click={handleClose}
               className="mr-2 text-white bg-gray-500 rounded-xl"
             >
               Skip

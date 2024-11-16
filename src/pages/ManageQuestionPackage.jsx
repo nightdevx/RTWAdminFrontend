@@ -21,6 +21,7 @@ const ManageQuestionPackage = () => {
   const [error, setError] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [loading, setLoading] = useState(true); // Loading state for spinner
+  const [currentStep, setCurrentStep] = useState(0);
 
   const closeAddPopup = () => setIsAddPopupOpen(false);
   const closeManageInformationPopup = () =>
@@ -94,7 +95,14 @@ const ManageQuestionPackage = () => {
       <div className="w-full min-h-20 bg-açıkrtw flex justify-between items-center">
         <AdminName />
         <div className="flex gap-4">
-          <div className="relative">
+          <div
+            className="relative"
+            id="search-packages-btn"
+            style={{
+              zIndex: currentStep === 5 ? 100 : 0,
+              position: "relative",
+            }}
+          >
             <input
               type="text"
               placeholder="Search Question Packages..."
@@ -117,12 +125,20 @@ const ManageQuestionPackage = () => {
             </select>
             <FaFilter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          <Button
-            click={handleDeleteClick}
-            className="bg-red-300 text-red-800 font-bold rounded-xl shadow-xl mr-5"
+          <div
+            id="delete-packages-btn"
+            style={{
+              zIndex: currentStep === 4 ? 100 : 0,
+              position: "relative",
+            }}
           >
-            Delete
-          </Button>
+            <Button
+              click={handleDeleteClick}
+              className="bg-red-300 text-red-800 font-bold rounded-xl shadow-xl mr-5"
+            >
+              Delete
+            </Button>
+          </div>
         </div>
 
         <Button
