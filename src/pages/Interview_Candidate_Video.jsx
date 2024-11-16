@@ -99,7 +99,10 @@ const InterviewCandidateVideoCollection = () => {
                     </div>
                   ) : (
                     <video
-                      src={video?.url}
+                      src={video?.url?.replace(
+                        "http://tkk04oksokwwgwswgg84cg4w.5.253.143.162.sslip.io",
+                        ""
+                      )}
                       controls
                       className="absolute inset-0 w-full h-full rounded-xl object-cover"
                     ></video>
