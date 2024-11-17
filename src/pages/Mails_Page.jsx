@@ -16,25 +16,59 @@ const MailsPage = () => {
     fetchMailPackageById,
     updateMailTemplate,
     sendMails,
+    sendApprovalMails,
     updateMailStatuses,
   } = useMailPackageStore();
-  const [text, setText] = useState("");
-  const [subject, setSubject] = useState("");
+
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
-  const [buttonText, setButtonText] = useState("Send Information Mails");
+  const [infoButtonText, setInfoButtonText] = useState(
+    "Send Information Mails"
+  );
+  const [approvalButtonText, setApprovalButtonText] = useState(
+    "Send Approval Status Mails"
+  );
   const [selectedMails, setSelectedMails] = useState({});
   const [isAddMailPopupOpen, setIsAddMailPopupOpen] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [mailType, setMailType] = useState("info");
+
+  const [infoMailText, setInfoMailText] = useState("");
+  const [infoMailSubject, setInfoMailSubject] = useState("");
+
+  const [acceptMailText, setAcceptMailText] = useState("");
+  const [acceptMailSubject, setAcceptMailSubject] = useState("");
+
+  const [rejectMailText, setRejectMailText] = useState("");
+  const [rejectMailSubject, setRejectMailSubject] = useState("");
 
   const closeAddMailPopup = () => setIsAddMailPopupOpen(false);
 
-  const validateForm = (checkMails = true) => {
+  useEffect(() => {
+    fetchMailPackageById(id);
+  }, [fetchMailPackageById, id]);
+
+  useEffect(() => {
+    if (mailPackage) {
+      setInfoMailText(mailPackage.infoTemplate.text || "");
+      setInfoMailSubject(mailPackage.infoTemplate.subject || "");
+      setAcceptMailText(mailPackage.acceptTemplate.text || "");
+      setAcceptMailSubject(mailPackage.acceptTemplate.subject || "");
+      setRejectMailText(mailPackage.rejectTemplate.text || "");
+      setRejectMailSubject(mailPackage.rejectTemplate.subject || "");
+    }
+  }, [mailPackage]);
+
+  const validateForm = (checkMails = true, subject, text) => {
+    console.log("subject", subject);
+    console.log("text", text);
     const newErrors = {};
     if (subject.trim() === "") {
+      console.log("subject", subject);
       newErrors.subject = "Subject is required";
     }
     if (text.trim() === "") {
+      console.log("text", text);
       newErrors.text = "Message is required";
     }
     if (checkMails && mailPackage.userMails.length === 0) {
@@ -45,33 +79,40 @@ const MailsPage = () => {
   };
 
   const handleTemplateSave = async () => {
-    if (!validateForm(false)) return;
-    if (
-      subject === mailPackage.template.subject &&
-      text === mailPackage.template.text
-    )
-      return;
-    updateMailTemplate(id, {
+    var newText = "";
+    var newSubject = "";
+    if (mailType === "info") {
+      console.log("info mail");
+      newText = infoMailText;
+      newSubject = infoMailSubject;
+      console.log("info mail", infoMailText, infoMailSubject);
+    } else if (mailType === "accept") {
+      console.log("accept mail");
+      newText = acceptMailText;
+      newSubject = acceptMailSubject;
+    } else if (mailType === "reject") {
+      console.log("reject mail");
+      newText = rejectMailText;
+      newSubject = rejectMailSubject;
+    }
+    if (!validateForm(false, newSubject, newText)) return;
+    await updateMailTemplate(id, {
+      type: mailType,
       template: {
-        subject: subject,
-        text: text,
+        subject: newSubject,
+        text: newText,
       },
     });
   };
 
   const sendInformationMails = async () => {
     setSending(true);
-    setButtonText("Sending...");
-    if (!validateForm()) {
-      setSending(false);
-      setButtonText("Send Information Mails");
-      return;
-    }
+    setInfoButtonText("Sending...");
     await handleTemplateSave();
     const filteredMails = mailPackage.userMails
       .filter((userMail) => userMail.mailStatus === "not-sended")
       .map((userMail) => userMail.mail);
-    await sendMails(filteredMails, subject, text);
+    await sendMails(filteredMails, infoMailSubject, infoMailText);
     await updateMailStatuses(
       id,
       filteredMails.map((mail) => ({
@@ -79,50 +120,40 @@ const MailsPage = () => {
         mailStatus: "sended",
       }))
     );
-    setButtonText("Sended");
+    setInfoButtonText("Sended");
     setTimeout(() => {
-      setButtonText("Send Information Mails");
+      setInfoButtonText("Send Information Mails");
     }, 2000);
     setSending(false);
   };
 
   const sendApprovalStatusMails = async () => {
     setSending(true);
-    setButtonText("Sending...");
-    if (!validateForm()) {
-      setSending(false);
-      setButtonText("Send Information Mails");
-      return;
-    }
+    setApprovalButtonText("Sending...");
     await handleTemplateSave();
-    const filteredMails = mailPackage.userMails
-      .filter((userMail) => userMail.mailStatus === "not-sended")
-      .map((userMail) => userMail.mail);
-    await sendMails(filteredMails, subject, text);
-    await updateMailStatuses(
-      id,
-      filteredMails.map((mail) => ({
-        mail: mail,
-        mailStatus: "sended",
-      }))
-    );
-    setButtonText("Sended");
+
+    const preparedMails = mailPackage.userMails
+      .filter((userMail) => userMail.approvalStatus !== "waiting")
+      .map((userMail) => ({
+      mail: userMail.mail,
+      subject:
+        userMail.approvalStatus === "accepted"
+        ? acceptMailSubject
+        : rejectMailSubject,
+      text:
+        userMail.approvalStatus === "accepted"
+        ? acceptMailText
+        : rejectMailText,
+      }));
+
+    await sendApprovalMails(preparedMails);
+
+    setApprovalButtonText("Sended");
     setTimeout(() => {
-      setButtonText("Send Information Mails");
+      setApprovalButtonText("Send Information Mails");
     }, 2000);
     setSending(false);
   };
-
-  useEffect(() => {
-    fetchMailPackageById(id);
-  }, [fetchMailPackageById, id]);
-
-  useEffect(() => {
-    if (mailPackage) {
-      setSubject(mailPackage.template.subject);
-      setText(mailPackage.template.text);
-    }
-  }, [mailPackage]);
 
   const filteredMails =
     mailPackage?.userMails.filter((userMail) =>
@@ -161,25 +192,34 @@ const MailsPage = () => {
             />
             <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          <Button
-            click={() => setIsAddMailPopupOpen(true)}
-            className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
-          >
-            Add Mail
-          </Button>
+          {selectedMails.length > 0 ? (
+            <Button
+              click={() => setIsAddMailPopupOpen(true)}
+              className="text-white w-60 mr-10 bg-red-500 hover:bg-hoverrtw rounded-xl shadow-lg"
+            >
+              Delete Mails
+            </Button>
+          ) : (
+            <Button
+              click={() => setIsAddMailPopupOpen(true)}
+              className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
+            >
+              Add Mail
+            </Button>
+          )}
           <Button
             click={sendInformationMails}
             className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
             disabled={sending}
           >
-            {buttonText}
+            {infoButtonText}
           </Button>
           <Button
             click={sendApprovalStatusMails}
             className="text-white w-60 mr-10 bg-rtw hover:bg-hoverrtw rounded-xl shadow-lg"
             disabled={sending}
           >
-            Send Approval Status Mails
+            {approvalButtonText}
           </Button>
         </div>
       </div>
@@ -200,12 +240,7 @@ const MailsPage = () => {
           <div className="w-full h-full rounded-bl-xl rounded-br-xl bg-white flex flex-col border border-gray-300 overflow-y-scroll">
             {filteredMails.length > 0 ? (
               filteredMails.map((userMail, index) => (
-                <UsersMails
-                  key={index}
-                  data={userMail}
-                  isSelected={!!selectedMails[userMail.id]}
-                  onSelect={() => toggleSelectMail(userMail.id)}
-                />
+                <UsersMails key={index} data={userMail} />
               ))
             ) : (
               <p
@@ -244,22 +279,72 @@ const MailsPage = () => {
                 </span>
               </button>
 
-              <select className="w-1/3 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw">
-                <option value="default">Information Mail</option>
-                <option value="interview">Accepted Mail</option>
-                <option value="rejected">Rejected Mail</option>
+              <select
+                className="w-1/3 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
+                onChange={(e) => setMailType(e.target.value)}
+                value={mailType}
+              >
+                <option value="info">Information Mail</option>
+                <option value="accept">Accepted Mail</option>
+                <option value="reject">Rejected Mail</option>
               </select>
             </div>
-            <p className="text-gray-600 text-xl">Subject</p>
-            <input
-              type="text"
-              className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-            {errors.subject && <p className="text-red-600">{errors.subject}</p>}
-            <p className="text-gray-600 text-xl mt-4">Message</p>
-            <TextEditor text={text} setText={setText} />
+            {mailType === "info" && (
+              <>
+                <p className="text-gray-600 text-xl font-bold">
+                  Information Mail
+                </p>
+                <p className="text-gray-600 text-xl">Subject</p>
+                <input
+                  type="text"
+                  className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
+                  value={infoMailSubject}
+                  onChange={(e) => setInfoMailSubject(e.target.value)}
+                />
+                {errors.subject && (
+                  <p className="text-red-600">{errors.subject}</p>
+                )}
+                <p className="text-gray-600 text-xl mt-4">Message</p>
+                <TextEditor text={infoMailText} setText={setInfoMailText} />
+              </>
+            )}
+
+            {mailType === "accept" && (
+              <>
+                <p className="text-gray-600 text-xl font-bold">Accepted Mail</p>
+                <p className="text-gray-600 text-xl">Subject</p>
+                <input
+                  type="text"
+                  className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
+                  value={acceptMailSubject}
+                  onChange={(e) => setAcceptMailSubject(e.target.value)}
+                />
+                {errors.subject && (
+                  <p className="text-red-600">{errors.subject}</p>
+                )}
+                <p className="text-gray-600 text-xl mt-4">Message</p>
+                <TextEditor text={acceptMailText} setText={setAcceptMailText} />
+              </>
+            )}
+
+            {mailType === "reject" && (
+              <>
+                <p className="text-gray-600 text-xl font-bold">Rejected Mail</p>
+                <p className="text-gray-600 text-xl">Subject</p>
+                <input
+                  type="text"
+                  className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
+                  value={rejectMailSubject}
+                  onChange={(e) => setRejectMailSubject(e.target.value)}
+                />
+                {errors.subject && (
+                  <p className="text-red-600">{errors.subject}</p>
+                )}
+                <p className="text-gray-600 text-xl mt-4">Message</p>
+                <TextEditor text={rejectMailText} setText={setRejectMailText} />
+              </>
+            )}
+
             {errors.text && <p className="text-red-600">{errors.text}</p>}
             <button
               className="bg-rtw text-white px-4 py-2 rounded-lg shadow-md hover:bg-hoverrtw duration-300 mt-auto w-80 mx-auto"

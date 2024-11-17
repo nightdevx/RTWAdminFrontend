@@ -6,6 +6,7 @@ import useVideoStore from "../store/video.store";
 import Button from "../components/Buttons/Button";
 import dateConverter from "../utils/dateConverter";
 import Spinner from "../components/Spinner";
+import useMailPackageStore from "../store/mail-package.store";
 
 const InterviewCandidateVideoCollection = () => {
   const { id } = useParams();
@@ -19,6 +20,8 @@ const InterviewCandidateVideoCollection = () => {
   } = useVideoCollectionsStore();
   const { interview, fetchInterviewById } = useInterviewStore();
   const { video, videoLoading, fetchVideoById } = useVideoStore();
+  const { updateApprovalStatus } = useMailPackageStore();
+
   const [status, setStatus] = useState("Waiting");
   const [note, setNote] = useState(""); // Notları tutmak için state
   const [loading, setLoading] = useState(true); // Loading state
@@ -52,6 +55,11 @@ const InterviewCandidateVideoCollection = () => {
     updateApplication(selectedApplication._id, {
       status: newStatus,
     });
+    updateApprovalStatus(
+      selectedApplication.interviewId,
+      newStatus,
+      selectedApplication.email
+    );
   };
 
   const handleSaveNotes = () => {

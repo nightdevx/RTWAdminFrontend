@@ -45,6 +45,30 @@ const UsersMails = ({ data }) => {
           </div>
         )}
       </div>
+      <div className="w-[25%] h-10 items-center flex ml-1">
+        {data?.approvalStatus === "accepted" ? (
+          <div className="w-auto text-[15px] text-green-600 p-1 rounded-xl border border-green-500 bg-green-200 flex items-center">
+            <div
+              className={`top-2 left-2 w-3 h-3 rounded-full bg-green-500`}
+            ></div>
+            &nbsp; Accepted
+          </div>
+        ) : data?.approvalStatus === "rejected" ? (
+          <div className="w-auto text-[15px] text-red-600 p-1 rounded-xl border border-red-500 bg-red-200 flex items-center">
+            <div
+              className={`top-2 left-2 w-3 h-3 rounded-full bg-red-500`}
+            ></div>
+            &nbsp; Rejected
+          </div>
+        ) : (
+          <div className="w-auto text-[15px] text-yellow-600 p-1 rounded-xl border border-yellow-500 bg-yellow-200 flex items-center">
+            <div
+              className={`top-2 left-2 w-3 h-3 rounded-full bg-yellow-500`}
+            ></div>
+            &nbsp; Waiting
+          </div>
+        )}
+      </div>
     </div>
   );
 };

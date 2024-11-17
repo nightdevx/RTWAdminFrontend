@@ -33,19 +33,6 @@ const fetchMailPackagesByInterviewId = async (set, interviewId) => {
   }
 };
 
-const createMailPackage = async (set, mailPackageData) => {
-  set({ loading: false, error: null });
-  try {
-    const response = await apiWithAuth.post(`/mail-packages`, mailPackageData);
-    set((state) => ({
-      mailPackages: [...state.mailPackages, response.data],
-      loading: false,
-    }));
-  } catch (error) {
-    set({ error: error.message, loading: false });
-  }
-};
-
 const deleteMailPackage = async (set, id) => {
   set({ loading: false, error: null });
   try {
@@ -59,11 +46,12 @@ const deleteMailPackage = async (set, id) => {
   }
 };
 
-const updateMailTemplate = async (set, id, templateData) => {
+const updateMailTemplate = async (set, id, type, templateData) => {
   set({ loading: false, error: null });
   try {
     const response = await apiWithAuth.put(
       `/mail-packages/${id}`,
+      type,
       templateData
     );
     set((state) => ({
@@ -180,6 +168,15 @@ const sendMails = async (set, mails, subject, message) => {
   }
 };
 
+const sendApprovalMails = async (set, mails) => {
+  try {
+    await apiWithAuth.post(`/emails/send-approval`, { mails });
+    set({ loading: false });
+  } catch (error) {
+    set({ error: error.message, loading: false });
+  }
+};
+
 const getMailData = async (id, mail) => {
   const response = await apiWithoutAuth.get(
     `/mail-packages/mail/${id}/${mail}`
@@ -213,6 +210,26 @@ const markInterviewAsDone = async (set, interviewId, mail) => {
   }
 };
 
+const updateApprovalStatus = async (set, id, status, mail) => {
+  set({ loading: false, error: null });
+  try {
+    const response = await apiWithAuth.put(
+      `/mail-packages/approval-status/${id}`,
+      { mail, status }
+    );
+    set((state) => ({
+      mailPackages: state.mailPackages.map((pkg) =>
+        pkg._id === id
+          ? { ...pkg, approvalStatus: response.data.approvalStatus }
+          : pkg
+      ),
+      loading: false,
+    }));
+  } catch (error) {
+    set({ error: error.message, loading: false });
+  }
+};
+
 const useMailPackageStore = create((set) => ({
   mailPackages: [],
   mailPackage: null,
@@ -224,13 +241,12 @@ const useMailPackageStore = create((set) => ({
   fetchMailPackageById: (id) => fetchMailPackageById(set, id),
   fetchMailPackagesByInterviewId: (interviewId) =>
     fetchMailPackagesByInterviewId(set, interviewId),
-  createMailPackage: (mailPackageData) =>
-    createMailPackage(set, mailPackageData),
   deleteMailPackage: (id) => deleteMailPackage(set, id),
   updateMailTemplate: (id, templateData) =>
     updateMailTemplate(set, id, templateData),
 
   sendMails: (ids, subject, message) => sendMails(set, ids, subject, message),
+  sendApprovalMails: (mails) => sendApprovalMails(set, mails),
 
   // Mail operations
   addMailsToPackage: (id, mailDatas) => addMailsToPackage(set, id, mailDatas),
@@ -240,6 +256,8 @@ const useMailPackageStore = create((set) => ({
   getMailData: (id, mail) => getMailData(id, mail),
   markInterviewAsDone: (interviewId, mail) =>
     markInterviewAsDone(set, interviewId, mail),
+  updateApprovalStatus: (id, status, mail) =>
+    updateApprovalStatus(set, id, status, mail),
 }));
 
 export default useMailPackageStore;
