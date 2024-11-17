@@ -16,13 +16,10 @@ const InterviewList = () => {
   ] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("default");
-  const [user, setUser] = useState(null);
   const { interviews, error, loading, fetchInterviews } = useInterviewStore();
 
   useEffect(() => {
     fetchInterviews();
-    const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
   }, [fetchInterviews]);
 
   const closePopup = () => setIsPopupOpen(false);
@@ -134,3 +131,5 @@ const InterviewList = () => {
 };
 
 export default InterviewList;
+
+

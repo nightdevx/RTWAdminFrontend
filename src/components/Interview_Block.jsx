@@ -18,7 +18,7 @@ const InterviewBlock = ({ data }) => {
   const infoPopupRef = useRef(null);
 
   const copyLink = () => {
-    const text = `${window.location.origin}/interview/${data.title}`;
+    const text = `https://rtw-user-frontend.vercel.app/interview/${data.title}`;
     navigator.clipboard.writeText(text).then(
       () => {
         console.log("Text copied to clipboard");
