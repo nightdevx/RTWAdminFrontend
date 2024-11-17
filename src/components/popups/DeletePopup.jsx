@@ -1,8 +1,6 @@
 import Button from "../../components/Buttons/Button";
 
-const DeletePopup = ({ isOpen, onConfirm, onCancel, error }) => {
-  if (!isOpen) return null;
-
+const DeletePopup = ({ onConfirm, onCancel, error }) => {
   return (
     <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm">
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-lg shadow-gray-500 rounded-xl z-50">

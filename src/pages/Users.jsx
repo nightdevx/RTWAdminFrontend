@@ -7,16 +7,17 @@ import CreateUserPopup from "../components/popups/CreateUserPopup";
 import Spinner from "../components/Spinner";
 
 const Users = () => {
-  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [error, setError] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Add loading state
-  const [selectedUser, setSelectedUser] = useState(null); // Add selected user state
-  const { users, fetchAllUsers, deleteUser } = useUserStore();
+  const { users, fetchAllUsers } = useUserStore();
   const [currentStep] = useState(0);
+
+  const closeAddPopup = () => {
+    setIsAddPopupOpen(false);
+  };
 
   useEffect(() => {
     setLoading(true); // Start loading
@@ -32,40 +33,12 @@ const Users = () => {
     setIsAddPopupOpen(true);
   };
 
-  const handleCheckboxChange = (id) => {
-    // Checkbox handling code
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteUser(id);
-      setIsDeletePopupOpen(false);
-      setSelectedUser(null);
-      fetchAllUsers(); // Kullanıcı listesini güncellemek için
-    } catch (error) {
-      console.error("User deletion failed:", error);
-      setError("Failed to delete user. Please try again.");
-    }
-  };
-
-  const openDeletePopup = (user) => {
-    setSelectedUser(user);
-    setIsDeletePopupOpen(true);
-  };
-
-  const closeDeletePopup = () => {
-    setIsDeletePopupOpen(false);
-    setSelectedUser(null);
-  };
-
   return (
     <div className="w-full h-full flex flex-col">
       <div className="w-full min-h-20 bg-[#eefaf9] flex justify-between items-center">
         <h1 className="text-2xl ml-8 w-full text-black p-2 rounded-xl">
           <span className="font-Roboto">Hello, </span>
-          <span className="font-Roboto">
-            {user?.username.toUpperCase()}
-          </span>
+          <span className="font-Roboto">{user?.username.toUpperCase()}</span>
         </h1>
         <div className="justify-center items-center flex gap-4">
           <div
@@ -126,13 +99,7 @@ const Users = () => {
             </div>
           ) : users && users.length > 0 ? (
             users.map((user, index) => (
-              <UsersInformation
-                key={index}
-                data={user}
-                onCheckboxChange={handleCheckboxChange}
-                selected={false}
-                onDelete={openDeletePopup} // Pass openDeletePopup instead of handleDelete
-              />
+              <UsersInformation key={index} data={user} />
             ))
           ) : (
             <div className="w-full h-full flex justify-center items-center">
@@ -141,31 +108,6 @@ const Users = () => {
           )}
         </div>
       </div>
-
-      {isDeletePopupOpen && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-lg shadow-gray-500 rounded-xl z-50">
-            <h2 className="text-lg font-bold">
-              Are you sure you want to delete the user?
-            </h2>
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="flex justify-end mt-4">
-              <Button
-                click={closeDeletePopup}
-                className="mr-2 bg-gray-500 text-white rounded-xl"
-              >
-                Cancel
-              </Button>
-              <Button
-                click={() => handleDelete(selectedUser._id)}
-                className="bg-red-500 text-white rounded-xl"
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {isAddPopupOpen && <CreateUserPopup onClose={closeAddPopup} />}
     </div>

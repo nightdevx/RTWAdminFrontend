@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate'i tanımla
 import Button from "../components/Buttons/Button";
 import imgArrowButton from "../assets/images/arrows.png";
 import { AddQuestionPopup } from "../components/popups/AddQuestionPopup";
 
 const Question = ({ data, index, onCheckboxChange, selected }) => {
-  const navigate = useNavigate();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleEditClick = () => {

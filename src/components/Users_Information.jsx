@@ -1,20 +1,31 @@
 import Button from "../components/Buttons/Button";
 import CreateUserPopup from "../components/popups/CreateUserPopup";
 import { useState } from "react";
+import DeletePopup from "./popups/DeletePopup";
+import useUserStore from "../store/user.store";
 
-const UsersInformation = ({
-  data,
-  isUsed,
-  onDelete,
-}) => {
+const UsersInformation = ({ data }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [error, setError] = useState("");
+  const { deleteUser } = useUserStore();
+
+  const openDeletePopup = () => setIsDeletePopupOpen(true);
+  const closeDeletePopup = () => setIsDeletePopupOpen(false);
 
   const closePopup = () => setIsPopupOpen(false);
   const openPopup = () => setIsPopupOpen(true);
   const [currentStep] = useState(0);
 
-  const handleDelete = () => {
-    onDelete(data);
+  const handleDelete = async () => {
+    try {
+      console.log("Deleting user:", data._id);
+      await deleteUser(data._id);
+      setIsDeletePopupOpen(false);
+    } catch (error) {
+      console.error("User deletion failed:", error);
+      setError("Failed to delete user. Please try again.");
+    }
   };
 
   return (
@@ -35,11 +46,8 @@ const UsersInformation = ({
           }}
         >
           <Button
-            disabled={isUsed}
             click={openPopup}
-            className={`font-bold px-6 rounded-xl h-9 justify-center items-center ${
-              isUsed ? "bg-gray-200 text-gray-400" : "bg-rtw text-white"
-            }`}
+            className={`font-bold px-6 rounded-xl h-9 justify-center items-center bg-rtw text-white`}
           >
             Edit
           </Button>
@@ -52,13 +60,20 @@ const UsersInformation = ({
           }}
         >
           <Button
-            click={handleDelete}
+            click={openDeletePopup}
             className="ml-2 bg-red-500 text-white font-bold  rounded-xl h-9 justify-center items-center"
           >
             Delete
           </Button>
         </div>
       </div>
+      {isDeletePopupOpen && (
+        <DeletePopup
+          onCancel={closeDeletePopup}
+          onConfirm={handleDelete}
+          error={error}
+        />
+      )}
       {isPopupOpen && <CreateUserPopup onClose={closePopup} data={data} />}
     </div>
   );

@@ -136,15 +136,13 @@ const updateQuestionInPackage = async (set, questionPackageId, question) => {
   }
 };
 
-const removeQuestionFromPackage = async (
-  set,
-  questionPackageId,
-  questionId
-) => {
+const removeQuestionsFromPackage = async (set, packId, questionIds) => {
   set({ loading: true, error: null });
   try {
-    const response = await apiWithAuth.delete(
-      `/question-packages/remove-question/${questionPackageId}/${questionId}`
+    console.log(packId, questionIds);
+    const response = await apiWithAuth.patch(
+      `/question-packages/remove-question/${packId}`,
+      { ids: questionIds }
     );
     set((state) => ({
       selectedPackage:
@@ -176,8 +174,8 @@ const useQuestionPackageStore = create((set) => ({
     addQuestionToPackage(set, questionPackageId, question),
   updateQuestionInPackage: (questionPackageId, question) =>
     updateQuestionInPackage(set, questionPackageId, question),
-  removeQuestionFromPackage: (questionPackageId, questionId) =>
-    removeQuestionFromPackage(set, questionPackageId, questionId),
+  removeQuestionsFromPackage: (questionPackageId, questionId) =>
+    removeQuestionsFromPackage(set, questionPackageId, questionId),
 }));
 
 export default useQuestionPackageStore;

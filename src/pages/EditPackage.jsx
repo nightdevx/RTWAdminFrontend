@@ -26,9 +26,8 @@ const Package = () => {
     selectedPackage,
     getQuestionPackageById,
     updateQuestionPackage,
-    deleteQuestions,
+    removeQuestionsFromPackage,
     loading,
-    error: packageError,
   } = useQuestionPackageStore();
 
   // Fetch package data on component mount
@@ -162,7 +161,7 @@ const Package = () => {
   };
 
   const confirmDelete = async () => {
-    await deleteQuestions(selectedQuestions);
+    await removeQuestionsFromPackage(selectedPackage._id, selectedQuestions);
     setSelectedQuestions([]); // Seçimleri temizle
     setIsDeletePopupOpen(false); // Popup'ı kapat
   };
