@@ -10,7 +10,6 @@ module.exports = {
       },
       fontFamily: {
         mono: ["Monofonto", "sans-serif"],
-        
       },
     },
     screens: {

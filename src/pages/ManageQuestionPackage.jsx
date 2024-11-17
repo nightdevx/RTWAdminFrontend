@@ -173,7 +173,7 @@ const ManageQuestionPackage = () => {
         <div className="w-[95%] items-center 3xl:min-h-[90%] 2xl:min-h-[85%] rounded-bl-xl rounded-br-xl bg-white flex flex-col border border-gray-300 overflow-y-scroll">
           {loading ? (
             <div className="flex items-center justify-center w-full h-full">
-              <Spinner /> {/* Display spinner while loading */}
+              <Spinner /> 
             </div>
           ) : (
             <>

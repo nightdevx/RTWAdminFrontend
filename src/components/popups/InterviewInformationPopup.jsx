@@ -76,18 +76,16 @@ const InterviewInformationPopup = ({ onClose, isOpen }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Reset all buttons' z-index to default
       guideSteps.forEach((step) => {
         const element = document.getElementById(step.targetId);
         if (element) {
-          element.style.zIndex = "1";
+          element.style.zIndex = "0"; // Tüm butonların z-index'ini sıfırla
         }
       });
 
-      // Set the current step's button z-index to 100
       const currentElement = document.getElementById(targetId);
       if (currentElement) {
-        currentElement.style.zIndex = "100";
+        currentElement.style.zIndex = "100"; // Sadece aktif olan butonu öne al
       }
     }
   }, [currentStep, targetId, isOpen]);
@@ -97,7 +95,7 @@ const InterviewInformationPopup = ({ onClose, isOpen }) => {
     guideSteps.forEach((step) => {
       const element = document.getElementById(step.targetId);
       if (element) {
-        element.style.zIndex = "1";
+        element.style.zIndex = "0";
       }
     });
     onClose();

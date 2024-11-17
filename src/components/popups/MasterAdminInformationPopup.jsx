@@ -3,7 +3,13 @@ import Button from "../Buttons/Button";
 
 const guideSteps = [
   {
-    title: "Welcome to the Admin Panel! 🎉 Manage Question Package",
+    title: "Welcome to the Admin Panel! 🎉 Users Information",
+    content: "This panel allows you to manage users.",
+    position: { top: "41%", left: "24%", arrowPosition: "left" },
+    targetId: "users-information-btn",
+  },
+  {
+    title: "Manage Question Package",
     content: "This panel allows you to manage question packages.",
     position: { top: "41%", left: "24%", arrowPosition: "left" },
     targetId: "manage-questions-btn",
@@ -21,34 +27,30 @@ const guideSteps = [
     targetId: "manage-mails-btn",
   },
   {
-    title: "Delete Packages",
-    content: "Select packages and click here to delete them.",
-    position: { top: "24%", left: "81.8%", arrowPosition: "top" },
-    targetId: "delete-packages-btn",
+    title: "Search Users",
+    content: "Use the search bar to find specific users.",
+    position: { top: "25%", left: "61.5%", arrowPosition: "top" },
+    targetId: "search-users-btn",
   },
   {
-    title: "Search Packages",
-    content: "Use the search bar to find specific packages.",
-    position: { top: "24%", left: "56.5%", arrowPosition: "top" },
-    targetId: "search-packages-btn",
+    title: "Edit Users",
+    content: "You can change the user's information.",
+    position: { top: "26%", left: "77%", arrowPosition: "right" },
+    targetId: "edit-users-btn",
   },
   {
-    title: "Packages Status",
-    content:
-      "The packages used in the ads are in In Use status and you cannot change the content of the question package. For this, you need to make the ad Inactive.",
-    position: { top: "41%", left: "30%", arrowPosition: "top" },
-    targetId: "packages-status-btn",
-  },
-  {
-    title: "Edit Packages",
-    content:
-      "To change and view the questions inside the question packs, you need to press the Edit button.",
-    position: { top: "26%", left: "80%", arrowPosition: "right" },
-    targetId: "edit-packages-btn",
+    title: "Delete Users",
+    content: "You can delete users.",
+    position: { top: "26%", left: "77%", arrowPosition: "right" },
+    targetId: "delete-users-btn",
   },
 ];
 
-const ManageInformationPopup = ({ onClose, isOpen, showQuestionPackage }) => {
+const MasterAdminInformationPopup = ({
+  onClose,
+  isOpen,
+  showQuestionPackage,
+}) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
@@ -61,22 +63,21 @@ const ManageInformationPopup = ({ onClose, isOpen, showQuestionPackage }) => {
 
   const { title, content, position, targetId } = guideSteps[currentStep];
 
- useEffect(() => {
-   if (isOpen) {
-     guideSteps.forEach((step) => {
-       const element = document.getElementById(step.targetId);
-       if (element) {
-         element.style.zIndex = "0"; // Tüm butonların z-index'ini sıfırla
-       }
-     });
+  useEffect(() => {
+    if (isOpen) {
+      guideSteps.forEach((step) => {
+        const element = document.getElementById(step.targetId);
+        if (element) {
+          element.style.zIndex = "0"; // Tüm butonların z-index'ini sıfırla
+        }
+      });
 
-     const currentElement = document.getElementById(targetId);
-     if (currentElement) {
-       currentElement.style.zIndex = "100"; // Sadece aktif olan butonu öne al
-     }
-   }
- }, [currentStep, targetId, isOpen]);
-
+      const currentElement = document.getElementById(targetId);
+      if (currentElement) {
+        currentElement.style.zIndex = "100"; // Sadece aktif olan butonu öne al
+      }
+    }
+  }, [currentStep, targetId, isOpen]);
 
   const handleClose = () => {
     // Reset all buttons' z-index to default when the popup is closed
@@ -152,4 +153,4 @@ const ManageInformationPopup = ({ onClose, isOpen, showQuestionPackage }) => {
   );
 };
 
-export default ManageInformationPopup;
+export default MasterAdminInformationPopup;

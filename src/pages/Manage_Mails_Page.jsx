@@ -9,11 +9,18 @@ const ManageMailsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { fetchAllMailPackages, mailPackages } = useMailPackageStore();
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
+
   useEffect(() => {
     fetchAllMailPackages();
   }, [fetchAllMailPackages]);
 
   const closeSettingPopup = () => setIsSettingPopupOpen(false);
+
+  // Search işlemi: Kullanıcının girdisine göre mailPackages listesini filtrele
+  const filteredMailPackages = mailPackages?.filter((mailPackage) => {
+    const interviewName = mailPackage?.interviewName?.toLowerCase() || ""; // Null ve undefined kontrolü
+    return interviewName.includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -48,7 +55,7 @@ const ManageMailsPage = () => {
         </div>
 
         <div className="w-[95%] 3xl:min-h-[90%] 2xl:min-h-[85%] rounded-bl-xl rounded-br-xl bg-white flex flex-grid border border-gray-300 overflow-y-scroll p-2">
-          {mailPackages?.map((mailPackage) => (
+          {filteredMailPackages?.map((mailPackage) => (
             <InterviewBlockUsers key={mailPackage._id} data={mailPackage} />
           ))}
         </div>

@@ -16,6 +16,11 @@ const UsersInformation = ({
 
   const closePopup = () => setIsPopupOpen(false);
   const openPopup = () => setIsPopupOpen(true);
+  const [currentStep] = useState(0);
+
+  const handleDelete = () => {
+    onDelete(data);
+  };
 
   return (
     <div className="py-2 w-full min-h-[60px] bg-white justify-center items-center flex hover:bg-[#eefaf9] hover:cursor-pointer border border-b-gray-300">
@@ -29,21 +34,37 @@ const UsersInformation = ({
         {data.company}
       </div>
       <div className="w-[20%] h-full justify-center items-center flex text-[20px] text-gray-500">
-        <Button
-          disabled={isUsed}
-          click={openPopup}
-          className={`font-bold px-6 rounded-xl h-9 justify-center items-center ${
-            isUsed ? "bg-gray-200 text-gray-400" : "bg-rtw text-white"
-          }`}
+        <div
+          id="edit-users-btn"
+          style={{
+            zIndex: currentStep === 1 ? 100 : 0,
+            position: "relative",
+          }}
         >
-          Edit
-        </Button>
-        <Button
-          click={() => onDelete(data._id)}
-          className="ml-2 bg-red-500 text-white font-bold  rounded-xl h-9 justify-center items-center"
+          <Button
+            disabled={isUsed}
+            click={openPopup}
+            className={`font-bold px-6 rounded-xl h-9 justify-center items-center ${
+              isUsed ? "bg-gray-200 text-gray-400" : "bg-rtw text-white"
+            }`}
+          >
+            Edit
+          </Button>
+        </div>
+        <div
+          id="delete-users-btn"
+          style={{
+            zIndex: currentStep === 1 ? 100 : 0,
+            position: "relative",
+          }}
         >
-          Delete
-        </Button> 
+          <Button
+            click={handleDelete}
+            className="ml-2 bg-red-500 text-white font-bold  rounded-xl h-9 justify-center items-center"
+          >
+            Delete
+          </Button>
+        </div>
       </div>
       {isPopupOpen && <CreateUserPopup onClose={closePopup} data={data} />}
     </div>

@@ -7,6 +7,7 @@ import useMenuStore from "../store/menu.store";
 import HeaderPage from "../components/HeaderPage";
 import InterviewInformationPopup from "../components/popups/InterviewInformationPopup";
 import ManageInformationPopup from "../components/popups/ManageInformationPopup";
+import MasterAdminInformationPopup from "../components/popups/MasterAdminInformationPopup";
 import imgArrowLeft from "../assets/images/sidebaraçık.svg";
 import imgArrowRight from "../assets/images/sidebarkapalı.svg";
 
@@ -45,6 +46,8 @@ const AdminPage = () => {
       setIsInfoPopupOpen(true);
     } else if (location.pathname.includes("interview")) {
       setIsInfoPopupOpen(true);
+    } else if (location.pathname.includes("users")) {
+      setIsInfoPopupOpen(true);
     }
   };
 
@@ -77,6 +80,11 @@ const AdminPage = () => {
                   : "hover:bg-hoverrtw text-white"
               } ${isMenuCollapsed ? "mt-50" : ""}`}
               onClick={() => handleButtonClick("/master/users")}
+              id="users-information-btn"
+              style={{
+                zIndex: currentStep === 1 ? 100 : 0,
+                position: "relative",
+              }}
             >
               {isMenuCollapsed ? (
                 <FaUsers className="text-2xl text-white" />
@@ -98,7 +106,7 @@ const AdminPage = () => {
             } ${isMenuCollapsed ? "mt-50" : ""}`}
             onClick={() => handleButtonClick("/admin/packages")}
             style={{
-              zIndex: currentStep === 0 ? 100 : 0,
+              zIndex: currentStep === 1 ? 100 : 0,
               position: "relative",
             }}
           >
@@ -122,7 +130,7 @@ const AdminPage = () => {
             }`}
             onClick={() => handleButtonClick("/admin/interview/list")}
             style={{
-              zIndex: currentStep === 1 ? 100 : 0,
+              zIndex: currentStep === 2 ? 100 : 0,
               position: "relative",
             }}
           >
@@ -226,6 +234,13 @@ const AdminPage = () => {
 
         {isInfoPopupOpen && location.pathname.includes("interview") && (
           <InterviewInformationPopup
+            isOpen={isInfoPopupOpen}
+            onClose={() => setIsInfoPopupOpen(false)}
+          />
+        )}
+
+        {isInfoPopupOpen && location.pathname.includes("users") && (
+          <MasterAdminInformationPopup
             isOpen={isInfoPopupOpen}
             onClose={() => setIsInfoPopupOpen(false)}
           />
