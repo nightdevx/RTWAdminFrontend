@@ -1,6 +1,6 @@
 import Button from "../../components/Buttons/Button";
 
-const uDeletePopup = ({ isOpen, onConfirm, onCancel, error }) => {
+const DeletePopup = ({ isOpen, onConfirm, onCancel, error }) => {
   if (!isOpen) return null;
 
   return (
