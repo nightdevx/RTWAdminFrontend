@@ -1,14 +1,7 @@
-import { useState } from "react"; // useState'i import et
 import { useNavigate } from "react-router-dom"; // useNavigate'i import et
 import Button from "../components/Buttons/Button";
 
-const QuestionPackage = ({
-  data,
-  onCheckboxChange,
-  selected,
-  isUsed,
-  currentStep,
-}) => {
+const QuestionPackage = ({ data, onCheckboxChange, selected, currentStep }) => {
   const navigate = useNavigate();
   const handleEditClick = () => {
     navigate(`/admin/packages/questions/${data._id}`);
@@ -21,8 +14,13 @@ const QuestionPackage = ({
           type="checkbox"
           checked={selected}
           onChange={() => onCheckboxChange(data._id)}
-          className="w-4 h-4 rounded-full border border-gray-400 checked:bg-red-600 checked:border-transparent"
+          className={`w-4 h-4 rounded-full border checked:bg-red-600 checked:border-transparent ${
+            data.isUsed
+              ? "cursor-not-allowed border-gray-200 "
+              : "cursor-pointer border-gray-700 "
+          }`}
           style={{ appearance: "none" }} // Tarayıcı varsayılan görünümünü kaldır
+          disabled={data.isUsed}
         />
       </div>
       {/* nokta ikonu */}
@@ -34,7 +32,7 @@ const QuestionPackage = ({
           position: "relative",
         }}
       >
-        {isUsed ? (
+        {data.isUsed ? (
           <div className="w-[620%] 2xl:w-[80%] text-[15px] text-green-600 p-1 rounded-xl border border-green-500 bg-green-200 flex items-center">
             <div
               className={`top-2 left-2 w-3 h-3 rounded-full bg-green-500`}
@@ -65,10 +63,10 @@ const QuestionPackage = ({
         }}
       >
         <Button
-          disabled={isUsed}
+          disabled={data.isUsed}
           click={handleEditClick}
           className={`font-bold px-6 rounded-xl h-9 justify-center items-center ${
-            isUsed ? "bg-gray-200 text-gray-400" : "bg-rtw text-white"
+            data.isUsed ? "bg-gray-200 text-gray-400" : "bg-rtw text-white"
           }`}
         >
           Edit

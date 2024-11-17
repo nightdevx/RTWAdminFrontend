@@ -8,10 +8,12 @@ import ManageInformationPopup from "../components/popups/ManageInformationPopup"
 import Spinner from "../components/Spinner";
 import AdminName from "../components/Admin_Name";
 import DeletePopup from "../components/popups/DeletePopup"; // DeletePopup'ı import et
+import useInterviewStore from "../store/interview.store";
 
 const ManageQuestionPackage = () => {
   const { questionPackages, getQuestionPackages, deleteQuestionPackages } =
     useQuestionPackageStore();
+  const { interviews, fetchInterviews } = useInterviewStore();
 
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -31,7 +33,8 @@ const ManageQuestionPackage = () => {
   useEffect(() => {
     setLoading(true);
     getQuestionPackages().finally(() => setLoading(false)); // Set loading to false after fetching data
-  }, [getQuestionPackages]);
+    fetchInterviews();
+  }, [getQuestionPackages, fetchInterviews]);
 
   const handleCheckboxChange = (packageId) => {
     setSelectedPackages((prev) =>
@@ -49,14 +52,6 @@ const ManageQuestionPackage = () => {
   };
 
   const confirmDelete = async () => {
-    const usedPackages = []; // Dummy data, replace with real data if needed
-    if (usedPackages.length > 0) {
-      const usedPackageNames = usedPackages.map((pkg) => pkg.title).join(", ");
-      setError(
-        `Some selected packages are used and cannot be deleted: ${usedPackageNames}`
-      );
-      return;
-    }
     await deleteQuestionPackages(selectedPackages);
     setSelectedPackages([]);
     setIsDeletePopupOpen(false);
@@ -75,7 +70,9 @@ const ManageQuestionPackage = () => {
   // Dummy data for package usage info
   const packageUsageInfo = questionPackages.map((pack) => ({
     ...pack,
-    isUsed: false,
+    isUsed: interviews.some((interview) =>
+      interview.packages.some((pkg) => pkg._id === pack._id)
+    ),
   }));
 
   // Filter packages based on search term
@@ -173,7 +170,7 @@ const ManageQuestionPackage = () => {
         <div className="w-[95%] items-center 3xl:min-h-[90%] 2xl:min-h-[85%] rounded-bl-xl rounded-br-xl bg-white flex flex-col border border-gray-300 overflow-y-scroll">
           {loading ? (
             <div className="flex items-center justify-center w-full h-full">
-              <Spinner /> 
+              <Spinner />
             </div>
           ) : (
             <>
@@ -182,14 +179,12 @@ const ManageQuestionPackage = () => {
                   No questions available
                 </div>
               ) : (
-                sortedPackages.map((pack, index) => (
+                sortedPackages.map((pack) => (
                   <QuestionPackage
                     key={pack._id}
                     data={pack}
-                    index={index + 1}
                     onCheckboxChange={handleCheckboxChange}
                     selected={selectedPackages.includes(pack._id)}
-                    isUsed={pack.isUsed}
                     currentStep={currentStep}
                   />
                 ))
