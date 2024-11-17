@@ -31,7 +31,6 @@ const UsersInformation = ({
         {data.email}
       </div>{" "}
       <div className="w-[27%] h-full items-center flex text-[20px] text-gray-500">
-        {data.company}
       </div>
       <div className="w-[20%] h-full justify-center items-center flex text-[20px] text-gray-500">
         <div

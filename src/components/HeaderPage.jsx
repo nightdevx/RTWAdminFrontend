@@ -45,10 +45,10 @@ const HeaderPage = ({
 
       <div className="ml-auto mr-10">
         <button
-          className="bg-transparent text-blue-600 rounded-xl flex items-center"
+          className="bg-transparent text-rtw hover:text-hoverrtw rounded-xl flex items-center"
           onClick={openPopup} // openPopup fonksiyonunu çağır
         >
-          <FaInfoCircle className="mr-2" />
+          <FaInfoCircle className="mr-2 text-4xl" />
           Info
         </button>
       </div>

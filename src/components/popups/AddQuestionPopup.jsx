@@ -49,10 +49,12 @@ export const AddQuestionPopup = ({ onClose, data }) => {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
       <div className="bg-white w-[30%] rounded-lg shadow-lg relative">
-        {/* Header Section */}
         <div className="flex justify-between items-center bg-rtw text-white p-4 rounded-t-lg">
           <h2 className="text-xl font-bold">Add Question</h2>
-          <button onClick={onClose} className="text-white font-bold">
+          <button
+            onClick={onClose}
+            className="text-white text-xl font-bold hover:text-red-500"
+          >
             X
           </button>
         </div>

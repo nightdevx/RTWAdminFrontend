@@ -67,8 +67,11 @@ const CreateUserPopup = ({ onClose, data }) => {
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center bg-opacity-50 backdrop-blur-sm">
       <div className="bg-white w-[30%] rounded-lg shadow-lg relative">
         <div className="flex justify-between items-center bg-rtw text-white p-4 rounded-t-lg">
-          <h2 className="text-xl font-bold">Kullanıcı Oluştur</h2>
-          <button onClick={onClose} className="text-white font-bold">
+          <h2 className="text-xl font-bold">Create User</h2>
+          <button
+            onClick={onClose}
+            className="text-white text-xl font-bold hover:text-red-500"
+          >
             X
           </button>
         </div>
@@ -120,7 +123,7 @@ const CreateUserPopup = ({ onClose, data }) => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-2"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -163,14 +166,14 @@ const CreateUserPopup = ({ onClose, data }) => {
                   type="submit"
                   className="px-6 py-2 bg-rtw text-white rounded hover:bg-hoverrtw rounded-xl ml-auto"
                 >
-                  Güncelle
+                  Update
                 </button>
               ) : (
                 <button
                   type="submit"
                   className="px-6 py-2 bg-rtw text-white rounded hover:bg-hoverrtw rounded-xl ml-auto"
                 >
-                  Oluştur
+                  Create
                 </button>
               )}
             </div>

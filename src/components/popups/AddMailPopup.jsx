@@ -59,7 +59,10 @@ const AddMailPopup = ({ onClose, id, mails }) => {
       <div className="bg-white w-[30%] rounded-lg shadow-lg relative">
         <div className="flex justify-between items-center bg-rtw text-white p-4 rounded-t-lg">
           <h2 className="text-xl font-bold">Kullanıcı Oluştur</h2>
-          <button onClick={onClose} className="text-white font-bold">
+          <button
+            onClick={onClose}
+            className="text-white text-xl font-bold hover:text-red-500"
+          >
             X
           </button>
         </div>

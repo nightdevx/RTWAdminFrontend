@@ -63,7 +63,7 @@ const Users = () => {
       <div className="w-full min-h-20 bg-[#eefaf9] flex justify-between items-center">
         <h1 className="text-2xl ml-8 w-full text-black p-2 rounded-xl">
           <span className="font-Roboto">Hello, </span>
-          <span className="font-Roboto font-bold">
+          <span className="font-Roboto">
             {user?.username.toUpperCase()}
           </span>
         </h1>
@@ -113,9 +113,7 @@ const Users = () => {
           <p className="w-[30%] h-full items-center flex text-xl text-gray-600">
             E-MAIL
           </p>
-          <p className="w-[21.5%] h-full items-center flex text-xl text-gray-600">
-            COMPANY
-          </p>
+          <p className="w-[21.5%] h-full items-center flex text-xl text-gray-600"></p>
           <p className="w-[11%] h-full items-center justify-center flex text-xl text-gray-600">
             ACTION
           </p>
