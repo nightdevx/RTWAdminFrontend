@@ -11,7 +11,7 @@ const guideSteps = [
     ),
     content:
       "To see the information inside the Interview you need to click on the information icon.",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
+    position: { top: "45%", left: "46%", arrowPosition: "left" },
     targetId: "info-icon-btn",
   },
   {
@@ -22,14 +22,8 @@ const guideSteps = [
       </>
     ),
     content: "Allows you to update Interview information.",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
+    position: { top: "45%", left: "46%", arrowPosition: "left" },
     targetId: "edit-icon-btn",
-  },
-  {
-    title: "Create Interview",
-    content: "Click on 'Create Interview' to add a new interview.",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
-    targetId: "create-interview-btn",
   },
   {
     title: (
@@ -40,7 +34,7 @@ const guideSteps = [
     ),
     content:
       "You create and copy an Interview link that you can send to candidates.",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
+    position: { top: "45%", left: "46%", arrowPosition: "left" },
     targetId: "link-icon-btn",
   },
   {
@@ -51,7 +45,7 @@ const guideSteps = [
       </>
     ),
     content: "You can delete the Interview with the IDelete icon",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
+    position: { top: "45%", left: "46%", arrowPosition: "left" },
     targetId: "delete-icon-btn",
   },
   {
@@ -62,12 +56,12 @@ const guideSteps = [
       </>
     ),
     content: "You can watch the interviews of the candidates with View Videos.",
-    position: { top: "0%", left: "4%", arrowPosition: "left" },
+    position: { top: "45%", left: "46%", arrowPosition: "left" },
     targetId: "view-videos-btn",
   },
 ];
 
-const InterviewInformationPopup = ({ onClose }) => {
+const InterviewInformationPopup = ({ onClose, isOpen }) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
@@ -81,20 +75,22 @@ const InterviewInformationPopup = ({ onClose }) => {
   const { title, content, position, targetId } = guideSteps[currentStep];
 
   useEffect(() => {
-    // Reset all buttons' z-index to default
-    guideSteps.forEach((step) => {
-      const element = document.getElementById(step.targetId);
-      if (element) {
-        element.style.zIndex = "1";
-      }
-    });
+    if (isOpen) {
+      // Reset all buttons' z-index to default
+      guideSteps.forEach((step) => {
+        const element = document.getElementById(step.targetId);
+        if (element) {
+          element.style.zIndex = "1";
+        }
+      });
 
-    // Set the current step's button z-index to 100
-    const currentElement = document.getElementById(targetId);
-    if (currentElement) {
-      currentElement.style.zIndex = "100";
+      // Set the current step's button z-index to 100
+      const currentElement = document.getElementById(targetId);
+      if (currentElement) {
+        currentElement.style.zIndex = "100";
+      }
     }
-  }, [currentStep, targetId]);
+  }, [currentStep, targetId, isOpen]);
 
   const handleClose = () => {
     // Reset all buttons' z-index to default when the popup is closed
@@ -108,7 +104,7 @@ const InterviewInformationPopup = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center">
+    <div className={`fixed inset-0 z-50  ${isOpen ? "" : "hidden"}`}>
       {/* Background blur */}
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" />
 

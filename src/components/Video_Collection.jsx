@@ -26,7 +26,7 @@ const VideoCollection = ({ data, video }) => {
 
   return (
     <div
-      className="min-w-[290px] max-w-[290px] min-h-[250px] max-h-[250px] bg-white border border-hoverrtw rounded-xl shadow-sm flex flex-col items-center justify-center relative hover:cursor-pointer hover:bg-açıkrtw"
+      className="min-w-[290px] max-w-[290px] min-h-[200px] max-h-[200px] bg-white border border-hoverrtw rounded-xl shadow-sm flex flex-col items-center justify-center relative hover:cursor-pointer hover:bg-açıkrtw"
       onClick={handleVideoClick}
     >
       <div
@@ -37,7 +37,7 @@ const VideoCollection = ({ data, video }) => {
         {data.firstName} {data.lastName}
       </p>
 
-      <div className="w-full h-80 inset-0 bg-hoverrtw rounded-xl">
+      <div className="w-full h-40 inset-0 bg-hoverrtw rounded-xl">
         {preview ? (
           <div className="rounded-xl absolute overflow-hidden">
             <ReactPlayer url={preview} height={"100%"} width={"100%"} />

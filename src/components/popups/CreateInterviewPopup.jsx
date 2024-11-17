@@ -82,7 +82,10 @@ export const CreateInterview = ({ onClose, data }) => {
           ) : (
             <h1 className="text-3xl font-bold">Create Interview</h1>
           )}
-          <button onClick={onClose} className="text-white font-bold">
+          <button
+            onClick={onClose}
+            className="text-white text-xl font-bold hover:text-red-500"
+          >
             X
           </button>
         </div>

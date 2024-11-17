@@ -59,7 +59,7 @@ const DropdownBox = ({ options = [], onSelect, selected }) => {
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={handleToggle}
-        className="inline-flex justify-center 3xl:w-[512px] 2xl:w-[397px] rounded-md border border-gray-300 shadow-sm px-10 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
+        className="inline-flex justify-center 3xl:w-[495px] 2xl:w-[397px] rounded-md border border-gray-300 shadow-sm px-10 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-hoverrtw"
       >
         {selectedOptions.length > 0
           ? selectedOptions.map((option) => option.title).join(", ")

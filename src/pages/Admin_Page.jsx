@@ -18,7 +18,7 @@ const AdminPage = () => {
   const [user, setUser] = useState(null);
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
   const [selectedButton, setSelectedButton] = useState("/admin/packages");
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep] = useState(0);
 
   useEffect(() => {
     if (location.pathname === "/admin" || location.pathname === "/admin/") {

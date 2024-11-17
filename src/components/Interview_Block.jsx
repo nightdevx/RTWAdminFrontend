@@ -84,7 +84,7 @@ const InterviewBlock = ({ data }) => {
           <div
             id="info-icon-btn"
             style={{
-              zIndex: currentStep === 8 ? 100 : 0,
+              zIndex: currentStep === 1 ? 100 : 0,
               position: "relative",
             }}
           >
@@ -111,29 +111,47 @@ const InterviewBlock = ({ data }) => {
             >
               <i className="fa-solid fa-pen-to-square text-black"></i>
             </button>
-
           </div>
         </div>
 
         <div className="flex space-x-2">
-          <button
-            className={`text-blue-500 ${isLinkCopied ? "text-green-500" : ""}`}
-            onClick={copyLink}
+          <div
+            id="link-icon-btn"
+            style={{
+              zIndex: currentStep === 3 ? 100 : 0,
+              position: "relative",
+            }}
           >
-            <i
-              className={`fas ${
-                isLinkCopied
-                  ? "fa-check animate-bounce"
-                  : "fa-link hover:text-blue-500"
+            <button
+              className={`text-blue-500 ${
+                isLinkCopied ? "text-green-500" : ""
               }`}
-            ></i>
-          </button>
-          <button
-            className="text-gray-500"
-            onClick={() => deleteInterview(data._id)}
+              onClick={copyLink}
+            >
+              <i
+                className={`fas ${
+                  isLinkCopied
+                    ? "fa-check animate-bounce"
+                    : "fa-link hover:text-blue-500"
+                }`}
+              ></i>
+            </button>
+          </div>
+
+          <div
+            id="delete-icon-btn"
+            style={{
+              zIndex: currentStep === 4 ? 100 : 0,
+              position: "relative",
+            }}
           >
-            <i className="fas fa-trash-alt text-red-500 hover:text-red-800"></i>
-          </button>
+            <button
+              className="text-gray-500"
+              onClick={() => deleteInterview(data._id)}
+            >
+              <i className="fas fa-trash-alt text-red-500 hover:text-red-800"></i>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -251,13 +269,21 @@ const InterviewBlock = ({ data }) => {
               </>
             )}
           </Button>
-          <Button
-            children={"View Videos"}
-            className={"text-hoverrtw hover:text-rtw text-sm font-semibold"}
-            click={() =>
-              navigate(`/admin/interview/video-collection/${data._id}`)
-            }
-          ></Button>
+          <div
+            id="view-videos-btn"
+            style={{
+              zIndex: currentStep === 5 ? 100 : 0,
+              position: "relative",
+            }}
+          >
+            <Button
+              children={"View Videos"}
+              className={"text-hoverrtw hover:text-rtw text-sm font-semibold w-80"}
+              click={() =>
+                navigate(`/admin/interview/video-collection/${data._id}`)
+              }
+            ></Button>
+          </div>
         </div>
       </div>
 

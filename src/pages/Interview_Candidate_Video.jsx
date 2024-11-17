@@ -69,7 +69,7 @@ const InterviewCandidateVideoCollection = () => {
 
   return (
     <div className="w-full h-full flex flex-col bg-açıkrtw">
-      <div className="w-full  max-h-20 min-h-20 bg-white flex justify-between items-center">
+      <div className="w-full max-h-20 min-h-20 bg-white flex justify-between items-center">
         <h1 className="text-2xl font-bold ml-10">Candidate Video Collection</h1>
         <button
           onClick={handleClose}
@@ -90,7 +90,9 @@ const InterviewCandidateVideoCollection = () => {
                 </h1>
                 <div className="relative w-full h-full rounded-xl bg-white">
                   {videoLoading ? (
-                    <Spinner />
+                    <div className="w-full h-full flex justify-center items-center">
+                      <Spinner />
+                    </div>
                   ) : selectedApplication?.videoUrl === "non-recorded" ? (
                     <div className="absolute inset-0 flex items-center justify-center bg-white rounded-xl">
                       <p className="text-xl font-semibold text-gray-700">

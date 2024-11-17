@@ -11,7 +11,7 @@ export const AddQuestionPackagePopup = ({ onClose }) => {
 
   const handleAddQuestion = async () => {
     if (!packageTitle.trim()) {
-      setError("Please enter a valid question and time.");
+      setError("Please enter a valid question package name.");
       return;
     }
     const pack = {
@@ -29,7 +29,7 @@ export const AddQuestionPackagePopup = ({ onClose }) => {
       <div className="bg-white w-[30%] rounded-lg shadow-lg relative">
         <div className="flex justify-between items-center bg-rtw text-white p-4 rounded-t-lg">
           <h2 className="text-xl font-bold">Add Question Package</h2>
-          <button onClick={onClose} className="text-white font-bold">
+          <button onClick={onClose} className="text-white text-xl font-bold hover:text-red-500">
             X
           </button>
         </div>
@@ -47,7 +47,7 @@ export const AddQuestionPackagePopup = ({ onClose }) => {
                 setPackageTitle(e.target.value);
                 setError("");
               }}
-              className="w-full h-[100px] border border-gray-300 rounded px-3 py-2"
+              className="w-full h-[100px] border border-gray-300 rounded px-3 py-2v focus:outline-none focus:ring-2 focus:ring-hoverrtw"
               maxLength={200}
             />
           </div>

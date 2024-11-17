@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom"; // useNavigate'i tanımla
+import { useState } from "react"; // useState'i import et
+import { useNavigate } from "react-router-dom"; // useNavigate'i import et
 import Button from "../components/Buttons/Button";
 
 const QuestionPackage = ({
@@ -6,9 +7,9 @@ const QuestionPackage = ({
   onCheckboxChange,
   selected,
   isUsed,
+  currentStep,
 }) => {
   const navigate = useNavigate();
-
   const handleEditClick = () => {
     navigate(`/admin/packages/questions/${data._id}`);
   };
@@ -25,7 +26,14 @@ const QuestionPackage = ({
         />
       </div>
       {/* nokta ikonu */}
-      <div className="w-[10%] h-9 items-center flex ml-1">
+      <div
+        className="w-[10%] h-9 items-center flex ml-1"
+        id="packages-status-btn"
+        style={{
+          zIndex: currentStep === 2 ? 100 : 0,
+          position: "relative",
+        }}
+      >
         {isUsed ? (
           <div className="w-[620%] 2xl:w-[80%] text-[15px] text-green-600 p-1 rounded-xl border border-green-500 bg-green-200 flex items-center">
             <div
@@ -48,7 +56,14 @@ const QuestionPackage = ({
       <div className="w-[10%] h-full items-center flex text-[20px] text-gray-600">
         {data.questions.length}
       </div>
-      <div className="w-[10%] h-full items-center flex text-[20px] text-gray-600">
+      <div
+        className="w-[10%] h-full items-center flex text-[20px] text-gray-600"
+        id="edit-packages-btn"
+        style={{
+          zIndex: currentStep === 2 ? 100 : 0,
+          position: "relative",
+        }}
+      >
         <Button
           disabled={isUsed}
           click={handleEditClick}

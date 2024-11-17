@@ -7,6 +7,7 @@ import { FaSearch, FaFilter } from "react-icons/fa";
 import ManageInformationPopup from "../components/popups/ManageInformationPopup";
 import Spinner from "../components/Spinner";
 import AdminName from "../components/Admin_Name";
+import DeletePopup from "../components/popups/DeletePopup"; // DeletePopup'ı import et
 
 const ManageQuestionPackage = () => {
   const { questionPackages, getQuestionPackages, deleteQuestionPackages } =
@@ -189,6 +190,7 @@ const ManageQuestionPackage = () => {
                     onCheckboxChange={handleCheckboxChange}
                     selected={selectedPackages.includes(pack._id)}
                     isUsed={pack.isUsed}
+                    currentStep={currentStep}
                   />
                 ))
               )}
@@ -198,32 +200,20 @@ const ManageQuestionPackage = () => {
       </div>
 
       {isDeletePopupOpen && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-lg shadow-gray-500 rounded-xl z-50">
-            <h2 className="text-lg font-bold">
-              Are you sure you want to delete the selected packages?
-            </h2>
-            {error && <p className="text-red-600">{error}</p>}
-            <div className="flex justify-end mt-4">
-              <Button
-                click={confirmDelete}
-                className="bg-red-600 text-white rounded-md"
-              >
-                Delete
-              </Button>
-              <Button
-                click={cancelDelete}
-                className="ml-2 bg-gray-300 rounded-md"
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </div>
+        <DeletePopup
+          isOpen={isDeletePopupOpen}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+          error={error}
+        />
       )}
       {isAddPopupOpen && <AddQuestionPackagePopup onClose={closeAddPopup} />}
       {isManageInformationPopupOpen && (
-        <ManageInformationPopup onClose={closeManageInformationPopup} />
+        <ManageInformationPopup
+          onClose={closeManageInformationPopup}
+          isOpen={isManageInformationPopupOpen}
+          showQuestionPackage={sortedPackages.length === 0}
+        />
       )}
     </div>
   );

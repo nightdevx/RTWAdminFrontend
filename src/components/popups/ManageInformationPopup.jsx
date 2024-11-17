@@ -36,17 +36,19 @@ const guideSteps = [
     title: "Packages Status",
     content:
       "The packages used in the ads are in In Use status and you cannot change the content of the question package. For this, you need to make the ad Inactive.",
-    position: { top: "40%", left: "27%", arrowPosition: "top" },
+    position: { top: "41%", left: "30%", arrowPosition: "top" },
+    targetId: "packages-status-btn",
   },
   {
     title: "Edit Packages",
     content:
       "To change and view the questions inside the question packs, you need to press the Edit button.",
-    position: { top: "30%", left: "80%", arrowPosition: "right" },
+    position: { top: "26%", left: "80%", arrowPosition: "right" },
+    targetId: "edit-packages-btn",
   },
 ];
 
-const ManageInformationPopup = ({ onClose }) => {
+const ManageInformationPopup = ({ onClose, isOpen, showQuestionPackage }) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
@@ -60,20 +62,22 @@ const ManageInformationPopup = ({ onClose }) => {
   const { title, content, position, targetId } = guideSteps[currentStep];
 
   useEffect(() => {
-    // Reset all buttons' z-index to default
-    guideSteps.forEach((step) => {
-      const element = document.getElementById(step.targetId);
-      if (element) {
-        element.style.zIndex = "1";
-      }
-    });
+    if (isOpen) {
+      // Reset all buttons' z-index to default
+      guideSteps.forEach((step) => {
+        const element = document.getElementById(step.targetId);
+        if (element) {
+          element.style.zIndex = "1";
+        }
+      });
 
-    // Set the current step's button z-index to 100
-    const currentElement = document.getElementById(targetId);
-    if (currentElement) {
-      currentElement.style.zIndex = "100";
+      // Set the current step's button z-index to 100
+      const currentElement = document.getElementById(targetId);
+      if (currentElement) {
+        currentElement.style.zIndex = "100";
+      }
     }
-  }, [currentStep, targetId]);
+  }, [currentStep, targetId, isOpen]);
 
   const handleClose = () => {
     // Reset all buttons' z-index to default when the popup is closed
@@ -87,7 +91,7 @@ const ManageInformationPopup = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className={`fixed inset-0 z-50 ${isOpen ? "" : "hidden"}`}>
       {/* Background blur */}
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" />
 
@@ -136,6 +140,14 @@ const ManageInformationPopup = ({ onClose }) => {
             </Button>
           </div>
         </div>
+        {showQuestionPackage && currentStep === 5 && (
+          <div className="mt-4">
+            <h3 className="text-lg font-bold text-hoverrtw">
+              Question Package
+            </h3>
+            <p>This is a placeholder for the Question Package component.</p>
+          </div>
+        )}
       </div>
     </div>
   );
