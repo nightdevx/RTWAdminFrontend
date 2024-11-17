@@ -1,17 +1,12 @@
-import { useNavigate } from "react-router-dom"; // useNavigate'i tanımla
 import Button from "../components/Buttons/Button";
 import CreateUserPopup from "../components/popups/CreateUserPopup";
 import { useState } from "react";
 
 const UsersInformation = ({
   data,
-  index,
-  onCheckboxChange,
-  selected,
   isUsed,
   onDelete,
 }) => {
-  const navigate = useNavigate();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const closePopup = () => setIsPopupOpen(false);
@@ -30,8 +25,7 @@ const UsersInformation = ({
       <div className="w-[40%] h-full items-center flex text-[20px] text-gray-500">
         {data.email}
       </div>{" "}
-      <div className="w-[27%] h-full items-center flex text-[20px] text-gray-500">
-      </div>
+      <div className="w-[27%] h-full items-center flex text-[20px] text-gray-500"></div>
       <div className="w-[20%] h-full justify-center items-center flex text-[20px] text-gray-500">
         <div
           id="edit-users-btn"

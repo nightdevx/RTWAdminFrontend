@@ -13,7 +13,10 @@ const DeletePopup = ({ isOpen, onConfirm, onCancel, error }) => {
         {error && <p className="text-red-600">{error}</p>}
         <div className="flex justify-end mt-4">
           {" "}
-          <Button click={onCancel} className="mr-2 bg-gray-300 hover:bg-gray-400 rounded-md">
+          <Button
+            click={onCancel}
+            className="mr-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+          >
             Cancel
           </Button>
           <Button
