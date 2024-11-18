@@ -141,3 +141,4 @@ const useApplicationsStore = create((set) => ({
 }));
 
 export default useApplicationsStore;
+
