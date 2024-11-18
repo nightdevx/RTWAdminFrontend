@@ -86,10 +86,10 @@ const CreateUserPopup = ({ onClose, data }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-hoverrtw"
               />
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block text-lg font-medium mb-2">
                 Şirket Adı:
               </label>
@@ -100,7 +100,7 @@ const CreateUserPopup = ({ onClose, data }) => {
                 required
                 className="w-full px-3 py-2 border rounded-lg"
               />
-            </div>
+            </div> */}
             <div className="mb-4">
               <label className="block text-lg font-medium mb-2">Email:</label>
               <input
@@ -108,7 +108,7 @@ const CreateUserPopup = ({ onClose, data }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-hoverrtw"
               />
             </div>
             <div className="mb-4 relative">
@@ -118,12 +118,12 @@ const CreateUserPopup = ({ onClose, data }) => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-hoverrtw"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-2"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -154,7 +154,7 @@ const CreateUserPopup = ({ onClose, data }) => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="w-full px-3 py-2 border rounded-lg"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-hoverrtw"
               />
             </div>
             {error && (

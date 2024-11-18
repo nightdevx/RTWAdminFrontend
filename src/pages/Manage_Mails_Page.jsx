@@ -45,13 +45,13 @@ const ManageMailsPage = () => {
           <p className="w-full h-full text-xl flex justify-center items-center font-bold text-gray-600">
             INTERVIEW NAME
           </p>
-          <button
+          {/* <button
             type="button"
             onClick={() => setIsSettingPopupOpen(true)}
             className="right-10 mt-3 mr-3 absolute"
           >
             <FaCogs className="w-8 h-8 text-xl flex justify-center items-center text-gray-600" />
-          </button>
+          </button> */}
         </div>
 
         <div className="w-[95%] 3xl:min-h-[90%] 2xl:min-h-[85%] rounded-bl-xl rounded-br-xl bg-white flex flex-grid border border-gray-300 overflow-y-scroll p-2">

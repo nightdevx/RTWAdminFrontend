@@ -150,7 +150,7 @@ const ManageQuestionPackage = () => {
       <div className="w-full items-center min-h-[92%] max-h-[92%] bg-açıkrtw flex flex-col">
         {/* Main content */}
         <div className="w-[95%] min-h-[60px] bg-white rounded-tl-xl rounded-tr-xl flex border border-gray-300 font-bold">
-          <p className="w-[10%] h-full text-xl flex justify-center items-center text-gray-600">
+          <p className="w-[10%] ml-1 h-full text-xl flex justify-center items-center text-gray-600">
             SELECT
           </p>
           <p className="w-[12%] h-full text-xl flex justify-center items-center text-gray-600">

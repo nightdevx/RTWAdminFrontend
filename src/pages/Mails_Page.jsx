@@ -181,7 +181,7 @@ const MailsPage = () => {
     <div className="w-full h-[92%] flex flex-col bg-red-500">
       <div className="w-full min-h-20 bg-açıkrtw flex justify-between items-center">
         <AdminName />
-        <div className="flex gap-4">
+        <div className="flex gap-1">
           <div className="relative mr-10">
             <input
               type="text"
@@ -230,11 +230,11 @@ const MailsPage = () => {
             <p className="w-[10%] h-full text-xl flex ml-2 items-center font-bold text-gray-600">
               SELECT
             </p>
-            <p className="w-[50%] h-full text-xl flex ml-2 items-center font-bold text-gray-600">
+            <p className="w-[50%] h-full text-xl flex ml-3 items-center font-bold text-gray-600">
               E-MAIL
             </p>
             <p className="w-[80%] h-full text-xl flex items-center text-gray-600 justify-center">
-              MAIL / INTERVIEW STATUS
+              MAIL / INTERVIEW / USER STATUS
             </p>
           </div>
           <div className="w-full h-full rounded-bl-xl rounded-br-xl bg-white flex flex-col border border-gray-300 overflow-y-scroll">
