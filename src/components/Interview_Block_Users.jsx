@@ -10,7 +10,7 @@ const InterviewBlockUsers = ({ data }) => {
   return (
     <div
       className={`w-[20%] bg-white h-[100px] rounded-xl p-4 shadow-sm shadow-gray-500 ml-2 mr-2 hover:cursor-pointer hover:bg-açıkrtw relative border-t-4 ${
-        data.isActive ? "border-green-500" : "border-red-500"
+        data.isActive ? "border-rtw" : "border-rtw"
       }`}
     >
       <button className="w-full h-full" onClick={handleClick}>
