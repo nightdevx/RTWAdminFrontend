@@ -41,8 +41,8 @@ const App = () => {
                   />
                   <Route path="manage-mails" element={<ManageMailsPage />} />
                   <Route path="manage-mails/:id?" element={<MailsPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
                 </Route>
+                <Route path="*" element={<Navigate to="/not-found" />} />
               </Routes>
             </PrivateRoutes>
           }
