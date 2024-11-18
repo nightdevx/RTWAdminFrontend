@@ -41,7 +41,7 @@ const App = () => {
                   />
                   <Route path="manage-mails" element={<ManageMailsPage />} />
                   <Route path="manage-mails/:id?" element={<MailsPage />} />
-                  <Route path="" element={<NotFoundPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Route>
               </Routes>
             </PrivateRoutes>
@@ -59,7 +59,6 @@ const App = () => {
             </MasterRoutes>
           }
         />
-        <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} /> {/* Wildcard route */}
       </Routes>
     </BrowserRouter>
