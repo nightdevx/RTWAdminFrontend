@@ -59,7 +59,7 @@ const App = () => {
             </MasterRoutes>
           }
         />
-        <Route path="*" element={<NotFoundPage />} /> {/* Wildcard route */}
+        <Route path="/not-found" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
