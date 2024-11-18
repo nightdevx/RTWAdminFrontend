@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AdminLogin from "./pages/Admin_Login";
 import AdminPage from "./pages/Admin_Page";
 import ManageQuestionPackage from "./pages/ManageQuestionPackage";
@@ -17,6 +17,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/admin-login" />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route
           path="/admin/*"
@@ -66,4 +67,3 @@ const App = () => {
 };
 
 export default App;
-
