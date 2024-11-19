@@ -13,6 +13,11 @@ const InterviewBlock = ({ data }) => {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const { deleteInterview, updateInterview } = useInterviewStore();
   const [currentStep, setCurrentStep] = useState(0);
+  const [error, setError] = useState(null);
+
+
+  // State for delete confirmation popup
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
   // Create a ref for the info popup
   const infoPopupRef = useRef(null);
@@ -31,14 +36,15 @@ const InterviewBlock = ({ data }) => {
     );
   };
 
-  const toggleActiveStatus = async () => {
-    console.log("Toggle active status");
-    try {
-      await updateInterview(data._id, { isActive: !data.isActive });
-    } catch (error) {
-      console.error("Error updating interview:", error);
-    }
-  };
+const toggleActiveStatus = async () => {
+  try {
+    await updateInterview(data._id, { isActive: !data.isActive });
+  } catch (err) {
+    console.error("Error updating interview:", err);
+    setError("Failed to update the interview status");
+  }
+};
+
 
   const toggleInfoPopup = () => {
     setIsInfoPopupOpen((prev) => !prev);
@@ -47,6 +53,7 @@ const InterviewBlock = ({ data }) => {
   const closeEditPopup = () => {
     setIsEditPopupOpen(false);
   };
+
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
@@ -71,6 +78,16 @@ const InterviewBlock = ({ data }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Handle Delete confirmation actions
+  const handleDelete = () => {
+    deleteInterview(data._id); // Perform deletion
+    setIsDeletePopupOpen(false); // Close the confirmation popup
+  };
+
+  const cancelDelete = () => {
+    setIsDeletePopupOpen(false); // Close the confirmation popup without deleting
+  };
 
   return (
     <div
@@ -147,7 +164,7 @@ const InterviewBlock = ({ data }) => {
           >
             <button
               className="text-gray-500"
-              onClick={() => deleteInterview(data._id)}
+              onClick={() => setIsDeletePopupOpen(true)} // Show confirmation popup
             >
               <i className="fas fa-trash-alt text-red-500 hover:text-red-800"></i>
             </button>
@@ -163,6 +180,35 @@ const InterviewBlock = ({ data }) => {
         <p className="text-gray-600 mb-2">
           Packages: {data.packages.map((pkg) => pkg.title).join(", ")}
         </p>
+      )}
+
+      {/* Delete Confirmation Popup */}
+      {isDeletePopupOpen && (
+        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-lg shadow-gray-500 rounded-xl z-50">
+            <h2 className="text-lg font-bold">
+              Are you sure you want to delete this interview?
+            </h2>
+
+            {error && <p className="text-red-600">{error}</p>}
+
+            <div className="flex justify-end mt-4">
+              {" "}
+              <Button
+                click={cancelDelete}
+                className="mr-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+              >
+                Cancel
+              </Button>
+              <Button
+                click={handleDelete}
+                className="bg-red-500 hover:bg-red-600 text-white rounded-md"
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* içerik popupı */}
@@ -278,7 +324,9 @@ const InterviewBlock = ({ data }) => {
           >
             <Button
               children={"View Videos"}
-              className={"text-hoverrtw hover:text-rtw text-sm font-semibold w-80"}
+              className={
+                "text-hoverrtw hover:text-rtw text-sm font-semibold w-80"
+              }
               click={() =>
                 navigate(`/admin/interview/video-collection/${data._id}`)
               }
