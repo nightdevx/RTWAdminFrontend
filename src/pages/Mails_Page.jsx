@@ -227,13 +227,10 @@ const MailsPage = () => {
       <div className="w-full items-center min-h-[92%] max-h-[92%] bg-açıkrtw flex">
         <div className="w-[50%] flex flex-col h-full p-4">
           <div className="w-full min-h-[60px] bg-white rounded-tl-xl rounded-tr-xl flex border border-gray-300 font-bold items-center">
-            <p className="w-[10%] h-full text-xl flex ml-2 items-center font-bold text-gray-600">
-              SELECT
-            </p>
-            <p className="w-[50%] h-full text-xl flex ml-3 items-center font-bold text-gray-600">
+            <p className="w-[40%] h-full text-xl flex ml-3 items-center font-bold text-gray-600">
               E-MAIL
             </p>
-            <p className="w-[80%] h-full text-xl flex items-center text-gray-600 justify-center">
+            <p className="w-[60%] h-full text-xl flex items-center text-gray-600 justify-center">
               MAIL / INTERVIEW / USER STATUS
             </p>
           </div>
